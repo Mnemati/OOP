@@ -1,0 +1,56 @@
+import datetime
+
+#store the next availble id for all new notes
+last_id = 0
+
+class Note:
+    '''represent a note in a notebook. Match against 
+    a string in searches and store tags for each note'''
+    
+    def __init__(self, memo, tags=''):
+        '''represent a note with memo and 
+        optional space-seperated tags. Automatically
+        sets the note's creation date and a unique id.'''
+        self.memo = memo
+        self.tags = tags
+        self.creation_date = datetime.date.today()
+        global last_id
+        last_id+=1
+        self.id = last_id
+    
+    def match(self, filters):
+        '''determine if this note matches 
+        the filter text. Return True if it matches 
+        ,False if not. Search is case sentesive and matches 
+        both text and tags.'''
+        return filters in self.memo or filters in self.tags
+    
+class Notebook:
+    '''represent a collection of notes that can be tagged, modified and searched'''
+    
+    def __init__(self):
+        '''initialize a notebook with an empty list'''
+        self.notes = []
+        
+    def new_note(self, memo, tags = ''):
+        '''create a new note and add it to the notebook list'''
+        self.notes.append(Note(memo, tags))
+        
+    def modify_memo(self, note_id, memo):
+        '''find the note with the given id and change the content'''
+        for note in self.notes:
+            if note.id == note.id:
+                note.memo = memo
+                break
+    def modify_tags(self, note_id, tags):
+        '''find a note with the given id and change the tag'''
+        for note in self.notes:
+            if note.id == note.id:
+                note.tags = tags
+                break
+                
+    def search(self, filters):
+        '''find all notes that match the given filter string'''
+        return [note for note in self.notes if note.match(filters)]
+                    
+    
